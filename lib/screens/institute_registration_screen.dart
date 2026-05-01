@@ -16,6 +16,7 @@ class InstituteRegistrationScreen extends StatefulWidget {
 
 class _InstituteRegistrationScreenState
     extends State<InstituteRegistrationScreen> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _addressController = TextEditingController();
   final _phone1Controller = TextEditingController();
@@ -108,85 +109,108 @@ class _InstituteRegistrationScreenState
               : 'Edit Institute',
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              CustomTextField(
-                controller: _nameController,
-                label: 'Institute Name',
-                icon: Icons.business,
-              ),
 
-              CustomTextField(
-                controller: _addressController,
-                label: 'Address',
-                icon: Icons.location_on,
-              ),
+      body: Form(
+        key: _formKey,
 
-              CustomTextField(
-                controller: _phone1Controller,
-                label: 'Conrtact Number',
-                icon: Icons.phone,
-                keyboardType: TextInputType.phone,
-                maxLength: 10,
-              ),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                CustomTextField(
+                  controller: _nameController,
+                  label: 'Institute Name',
+                  icon: Icons.business,
+                ),
 
-              CustomTextField(
-                controller: _phone2Controller,
-                label: 'Whatsapp Number',
-                icon: Icons.phone,
-                keyboardType: TextInputType.phone,
-                maxLength: 10,
-              ),
+                CustomTextField(
+                  controller: _addressController,
+                  label: 'Address',
+                  icon: Icons.location_on,
+                ),
 
-              CustomTextField(
-                controller: _ownerController,
-                label: 'Owner Name',
-                icon: Icons.person,
-              ),
+                CustomTextField(
+                  controller: _phone1Controller,
+                  label: 'Conrtact Number',
+                  icon: Icons.phone,
+                  keyboardType: TextInputType.phone,
+                  maxLength: 10,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a Phone number';
+                    }
 
-              CustomTextField(
-                controller: _usernameController,
-                label: 'Login Username',
-                icon: Icons.account_circle_rounded,
-              ),
-
-              CustomTextField(
-                controller: _passwordController,
-                label: 'Password',
-                icon: Icons.lock,
-                isPassword: true, // මේකෙන් අකුරු තරු (*) ලකුණු විදිහට පේන්නේ
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a password';
-                  }
-                  if (value.length < 6) {
-                    return 'Password must be at least 6 characters';
-                  }
-                  return null;
-                },
-              ),
-
-              const SizedBox(height: 25),
-              SizedBox(
-                width: double.infinity,
-                height: 50,
-                child: ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      _saveData();
+                    if (value.length != 10) {
+                      return 'Please enter a valid 10-digit phone number.';
                     }
                   },
-                  style: ElevatedButton.styleFrom(),
-                  child: Text(
-                    widget.institute == null ? 'Save' : 'Update',
-                    style: const TextStyle(fontSize: 16),
+                ),
+
+                CustomTextField(
+                  controller: _phone2Controller,
+                  label: 'Whatsapp Number',
+                  icon: Icons.phone,
+                  keyboardType: TextInputType.phone,
+                  maxLength: 10,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a Phone number';
+                    }
+
+                    if (value.length != 10) {
+                      return 'Please enter a valid 10-digit phone number.';
+                    }
+                  },
+                ),
+
+                CustomTextField(
+                  controller: _ownerController,
+                  label: 'Owner Name',
+                  icon: Icons.person,
+                ),
+
+                CustomTextField(
+                  controller: _usernameController,
+                  label: 'Login Username',
+                  icon: Icons.account_circle_rounded,
+                ),
+
+                CustomTextField(
+                  controller: _passwordController,
+                  label: 'Password',
+                  icon: Icons.lock,
+                  isPassword: true, // මේකෙන් අකුරු තරු (*) ලකුණු විදිහට පේන්නේ
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a password';
+                    }
+                    if (value.length < 6) {
+                      return 'Password must be at least 6 characters';
+                    }
+                    return null;
+                  },
+                ),
+
+                const SizedBox(height: 25),
+                SizedBox(
+                  width: double.infinity,
+                  height: 50,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        _saveData();
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(),
+                    child: Text(
+                      widget.institute == null ? 'Save' : 'Update',
+                      style: const TextStyle(fontSize: 16),
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
