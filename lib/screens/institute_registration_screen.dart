@@ -174,7 +174,11 @@ class _InstituteRegistrationScreenState
                 width: double.infinity,
                 height: 50,
                 child: ElevatedButton(
-                  onPressed: _saveData,
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      _saveData();
+                    }
+                  },
                   style: ElevatedButton.styleFrom(),
                   child: Text(
                     widget.institute == null ? 'Save' : 'Update',
