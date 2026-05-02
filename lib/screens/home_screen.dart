@@ -1,4 +1,5 @@
 import 'package:exon_admin/screens/institute_list_screen.dart';
+import 'package:exon_admin/screens/link_teacher_screen.dart';
 import 'package:exon_admin/screens/teacher_list_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -38,7 +39,7 @@ class HomeScreen extends StatelessWidget {
               'Link Teacher',
               Icons.link,
               Colors.orange,
-              null, // තවම හදලා නැති නිසා null
+              const LinkTeacherScreen(),
             ),
           ],
         ),

@@ -2,16 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class UniversalSearchDelegate extends SearchDelegate {
-  final String tableName; 
+  final String tableName;
   final String searchField;
   final Function(Map<String, dynamic>) onSelected;
 
-  UniversalSearchDelegate({required this.tableName, required this.searchField, required this.onSelected});
+  UniversalSearchDelegate({
+    required this.tableName,
+    required this.searchField,
+    required this.onSelected,
+  });
 
   @override
   List<Widget>? buildActions(BuildContext context) {
     return [
-      IconButton(icon: const Icon(Icons.clear), onPressed: () => query = '')
+      IconButton(icon: const Icon(Icons.clear), onPressed: () => query = ''),
     ];
   }
 
@@ -30,7 +34,9 @@ class UniversalSearchDelegate extends SearchDelegate {
   Widget buildSuggestions(BuildContext context) => _showResults();
 
   Widget _showResults() {
-    if (query.isEmpty) return const Center(child: Text('සොයන්න දෙයක් ටයිප් කරන්න...'));
+    if (query.isEmpty) {
+      return const Center(child: Text('Type something to find ...'));
+    }
 
     return FutureBuilder(
       future: Supabase.instance.client
@@ -41,9 +47,9 @@ class UniversalSearchDelegate extends SearchDelegate {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         }
-        
+
         if (!snapshot.hasData || (snapshot.data as List).isEmpty) {
-          return const Center(child: Text('කිසිවක් හමු නොවීය.'));
+          return const Center(child: Text('No results'));
         }
 
         final results = snapshot.data as List<dynamic>;
@@ -53,7 +59,7 @@ class UniversalSearchDelegate extends SearchDelegate {
             final item = results[index];
             return ListTile(
               leading: const Icon(Icons.location_city),
-              title: Text(item[searchField] ?? 'නමක් නැත'),
+              title: Text(item[searchField] ?? 'No name'),
               subtitle: Text(item['address'] ?? ''),
               onTap: () => onSelected(item),
             );

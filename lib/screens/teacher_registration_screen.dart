@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/teacher_model.dart';
 import '../services/database_service.dart';
 import '../widgets/custom_text_field.dart';
+import '../widgets/custom_button.dart';
 
 class TeacherRegistrationScreen extends StatefulWidget {
   final Teacher? teacher; // Update කරනවා නම් පරණ දත්ත මෙතනට එනවා
@@ -180,22 +181,13 @@ class _TeacherRegistrationScreenState extends State<TeacherRegistrationScreen> {
                   },
                 ),
 
-                const SizedBox(height: 25),
-                SizedBox(
-                  width: double.infinity,
-                  height: 50,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        _saveData();
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(),
-                    child: Text(
-                      widget.teacher == null ? 'Save' : 'Update',
-                      style: const TextStyle(fontSize: 16),
-                    ),
-                  ),
+                CustomButton(
+                  text: widget.teacher == null ? 'Save' : 'Update',
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      _saveData();
+                    }
+                  },
                 ),
               ],
             ),

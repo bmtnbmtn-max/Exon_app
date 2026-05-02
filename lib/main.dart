@@ -1,4 +1,5 @@
 import 'package:exon_admin/screens/home_screen.dart';
+import 'package:exon_admin/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -62,7 +63,12 @@ class MyApp extends StatelessWidget {
         ),
       ),
 
-      home: HomeScreen(),
+      // පේළි අංක 65 සිට මේ විදිහට update කරන්න
+      initialRoute: '/', // මුලින්ම පෙන්විය යුතු Screen එකේ නම
+      routes: {
+        '/': (context) => const LoginScreen(), // මුලින්ම Login පෙන්වන්න
+        '/home': (context) => const HomeScreen(), // Home එකට යන පාර
+      },
     );
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/institute_model.dart';
 import '../services/database_service.dart';
 import '../widgets/custom_text_field.dart';
+import '../widgets/custom_button.dart';
 
 class InstituteRegistrationScreen extends StatefulWidget {
   final Institute? institute; // Update කරනවා නම් පරණ දත්ත මෙතනට එනවා
@@ -193,22 +194,13 @@ class _InstituteRegistrationScreenState
                   },
                 ),
 
-                const SizedBox(height: 25),
-                SizedBox(
-                  width: double.infinity,
-                  height: 50,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        _saveData();
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(),
-                    child: Text(
-                      widget.institute == null ? 'Save' : 'Update',
-                      style: const TextStyle(fontSize: 16),
-                    ),
-                  ),
+                CustomButton(
+                  text: widget.institute == null ? 'Save' : 'Update',
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      _saveData();
+                    }
+                  },
                 ),
               ],
             ),

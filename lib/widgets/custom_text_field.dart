@@ -47,6 +47,13 @@ class CustomTextField extends StatelessWidget {
             hintText: hint,
             prefixIcon: icon != null ? Icon(icon) : null,
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(
+                color: Colors.deepOrangeAccent,
+                width: 2,
+              ),
+            ),
           ),
         ),
         // මෙතනදී තමයි පරතරය ඇඩ් වෙන්නේ
