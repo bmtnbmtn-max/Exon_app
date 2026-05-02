@@ -18,7 +18,11 @@ class DatabaseService {
   }
 
   // 3. Update - විස්තර වෙනස් කිරීම
-  Future<void> updateData(String tableName, String id, Map<String, dynamic> data,) async {
+  Future<void> updateData(
+    String tableName,
+    String id,
+    Map<String, dynamic> data,
+  ) async {
     try {
       await _supabase.from(tableName).update(data).eq('id', id);
     } catch (e) {

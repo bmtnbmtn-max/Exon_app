@@ -1,6 +1,6 @@
+import 'package:exon_admin/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'screens/institute_list_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -62,7 +62,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
 
-      home: InstituteListScreen(),
+      home: HomeScreen(),
     );
   }
 }

@@ -1,26 +1,24 @@
 import 'package:flutter/material.dart';
-import '../models/institute_model.dart';
+import '../models/teacher_model.dart';
 import '../services/database_service.dart';
 import '../widgets/custom_text_field.dart';
 
-class InstituteRegistrationScreen extends StatefulWidget {
-  final Institute? institute; // Update කරනවා නම් පරණ දත්ත මෙතනට එනවා
+class TeacherRegistrationScreen extends StatefulWidget {
+  final Teacher? teacher; // Update කරනවා නම් පරණ දත්ත මෙතනට එනවා
 
-  const InstituteRegistrationScreen({super.key, this.institute});
+  const TeacherRegistrationScreen({super.key, this.teacher});
 
   @override
-  State<InstituteRegistrationScreen> createState() =>
-      _InstituteRegistrationScreenState();
+  State<TeacherRegistrationScreen> createState() =>
+      _TeacherRegistrationScreenState();
 }
 
-class _InstituteRegistrationScreenState
-    extends State<InstituteRegistrationScreen> {
+class _TeacherRegistrationScreenState extends State<TeacherRegistrationScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
-  final _addressController = TextEditingController();
+  final _subjectController = TextEditingController();
   final _phone1Controller = TextEditingController();
   final _phone2Controller = TextEditingController();
-  final _ownerController = TextEditingController();
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
 
@@ -30,23 +28,21 @@ class _InstituteRegistrationScreenState
   void initState() {
     super.initState();
     // පිටුවට එන විට පරණ දත්ත තිබේ නම් ඒවා TextFields වලට ඇතුළත් කරනවා
-    if (widget.institute != null) {
-      _nameController.text = widget.institute!.name;
-      _addressController.text = widget.institute!.address;
-      _ownerController.text = widget.institute!.owner;
-      _phone1Controller.text = widget.institute!.phone1;
-      _phone2Controller.text = widget.institute!.phone2;
-      _usernameController.text = widget.institute!.username;
-      _passwordController.text = widget.institute!.password;
+    if (widget.teacher != null) {
+      _nameController.text = widget.teacher!.name;
+      _subjectController.text = widget.teacher!.subject;
+      _phone1Controller.text = widget.teacher!.phone1;
+      _phone2Controller.text = widget.teacher!.phone2;
+      _usernameController.text = widget.teacher!.username;
+      _passwordController.text = widget.teacher!.password;
     }
   }
 
   Future<void> _saveData() async {
     if (_nameController.text.isEmpty ||
-        _addressController.text.isEmpty ||
         _phone1Controller.text.isEmpty ||
         _phone2Controller.text.isEmpty ||
-        _ownerController.text.isEmpty ||
+        _subjectController.text.isEmpty ||
         _usernameController.text.isEmpty ||
         _passwordController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -57,28 +53,27 @@ class _InstituteRegistrationScreenState
 
     try {
       // මුලින්ම පෝරමයේ ඇති දත්ත වලින් Institute Object එකක් හදාගනිමු
-      final instituteData = Institute(
-        id: widget.institute?.id, // Edit කරනවා නම් පරණ ID එක, නැත්නම් null
+      final teacherData = Teacher(
+        id: widget.teacher?.id, // Edit කරනවා නම් පරණ ID එක, නැත්නම් null
         name: _nameController.text,
-        address: _addressController.text,
         phone1: _phone1Controller.text,
         phone2: _phone2Controller.text,
-        owner: _ownerController.text,
+        subject: _subjectController.text,
         username: _usernameController.text,
         password: _passwordController.text,
         // Edit කරන වෙලාවට තිබුණු අගයම පාවිච්චි කරයි, අලුත් එකක් නම් true වේ
-        isFirstLogin: widget.institute?.isFirstLogin ?? true,
+        isFirstLogin: widget.teacher?.isFirstLogin ?? true,
       );
 
-      if (widget.institute == null) {
+      if (widget.teacher == null) {
         // අලුත් දත්තයක් ඇතුළත් කිරීම (Insert)
-        await _dbService.insertData('institutes', instituteData.toMap());
+        await _dbService.insertData('teachers', teacherData.toMap());
       } else {
         // තියෙන දත්තයක් වෙනස් කිරීම (Update)
         await _dbService.updateData(
-          'institutes',
-          widget.institute!.id!,
-          instituteData.toMap(),
+          'teachers',
+          widget.teacher!.id!,
+          teacherData.toMap(),
         );
       }
 
@@ -103,9 +98,7 @@ class _InstituteRegistrationScreenState
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          widget.institute == null
-              ? 'Institute Registration'
-              : 'Edit Institute',
+          widget.teacher == null ? 'Teacher Registration' : 'Edit Teacher',
         ),
       ),
 
@@ -119,20 +112,20 @@ class _InstituteRegistrationScreenState
               children: [
                 CustomTextField(
                   controller: _nameController,
-                  label: 'Institute Name',
-                  icon: Icons.business,
+                  label: 'Teacher Name',
+                  icon: Icons.person,
                 ),
 
                 CustomTextField(
-                  controller: _addressController,
-                  label: 'Address',
-                  icon: Icons.location_on,
+                  controller: _subjectController,
+                  label: 'Subject',
+                  icon: Icons.subject,
                 ),
 
                 CustomTextField(
                   controller: _phone1Controller,
                   label: 'Conrtact Number',
-                  icon: Icons.chat_outlined,
+                  icon: Icons.phone,
                   keyboardType: TextInputType.phone,
                   maxLength: 10,
                   validator: (value) {
@@ -150,7 +143,7 @@ class _InstituteRegistrationScreenState
                 CustomTextField(
                   controller: _phone2Controller,
                   label: 'Whatsapp Number',
-                  icon: Icons.phone,
+                  icon: Icons.chat_outlined,
                   keyboardType: TextInputType.phone,
                   maxLength: 10,
                   validator: (value) {
@@ -163,12 +156,6 @@ class _InstituteRegistrationScreenState
                     }
                     return null;
                   },
-                ),
-
-                CustomTextField(
-                  controller: _ownerController,
-                  label: 'Owner Name',
-                  icon: Icons.person,
                 ),
 
                 CustomTextField(
@@ -205,7 +192,7 @@ class _InstituteRegistrationScreenState
                     },
                     style: ElevatedButton.styleFrom(),
                     child: Text(
-                      widget.institute == null ? 'Save' : 'Update',
+                      widget.teacher == null ? 'Save' : 'Update',
                       style: const TextStyle(fontSize: 16),
                     ),
                   ),
@@ -221,10 +208,9 @@ class _InstituteRegistrationScreenState
   @override
   void dispose() {
     _nameController.dispose();
-    _addressController.dispose();
+    _subjectController.dispose();
     _phone1Controller.dispose();
     _phone2Controller.dispose();
-    _ownerController.dispose();
     _usernameController.dispose();
     _passwordController.dispose();
     super.dispose();
